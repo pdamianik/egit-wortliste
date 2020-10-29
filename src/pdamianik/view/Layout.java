@@ -43,7 +43,15 @@ public class Layout extends JPanel {
 	 */
 
 	public String getWord() {
-		return this.quiz.getWord();
+		return quiz.getWord();
+	}
+
+	/**
+	 * Clears the word input
+	 */
+
+	public void clearWordInput() {
+		quiz.clearInput();
 	}
 
 	/**

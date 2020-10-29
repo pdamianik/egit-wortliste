@@ -57,6 +57,7 @@ public class Controller implements ActionListener {
 						trainer = SerializedFileIO.load();
 					else
 						trainer = load(new File(path));
+					layout.clearWordInput();
 					layout.setImage(trainer.getSelectedWordEntry().getImageUrl());
 					stats = trainer.getStats();
 					layout.updateStatus(stats[0], stats[1]);
@@ -65,6 +66,7 @@ public class Controller implements ActionListener {
 					break;
 				case "Quiz-wordInput":
 					trainer.check(layout.getWord());
+					layout.clearWordInput();
 					stats = trainer.getStats();
 					layout.updateStatus(stats[0], stats[1]);
 					layout.setImage(trainer.getRandomEntry().getImageUrl());
@@ -74,12 +76,14 @@ public class Controller implements ActionListener {
 				case "GameControl-reset":
 					reset();
 					layout.updateStatus(0, 0);
+					layout.clearWordInput();
 					break;
 				case "GameControl-addWord":
 					String[] newWord = window.getNewWord();
 					if (newWord == null) {
 						break;
 					}
+					layout.clearWordInput();
 					trainer.add(newWord[0], new URL(newWord[1]));
 					layout.setImage(trainer.getRandomEntry().getImageUrl());
 					window.pack();
