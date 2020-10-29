@@ -52,6 +52,9 @@ public class Controller implements ActionListener {
 						trainer = SerializedFileIO.load();
 					else
 						trainer = load(new File(path));
+					layout.setImage(trainer.getSelectedWordEntry().getImageUrl());
+					int[] stats = trainer.getStats();
+					layout.updateStatus(stats[0], stats[1]);
 					break;
 				default:
 					System.out.println("Does nothing");
