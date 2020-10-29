@@ -40,23 +40,21 @@ public class Controller implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String path = "";
+		File file = null;
 		int[] stats;
 		try {
 			switch (e.getActionCommand()) {
 				case "GameControl-save":
-					path = window.getSaveFilePath();
-					if (path.length() == 0)
-						SerializedFileIO.save(trainer);
-					else
-						SerializedFileIO.save(new File(path), trainer);
+					file = window.getSaveFile();
+					if (file == null)
+						break;
+					SerializedFileIO.save(file, trainer);
 					break;
 				case "GameControl-load":
-					path = window.getSaveFilePath();
-					if (path.length() == 0)
-						trainer = SerializedFileIO.load();
-					else
-						trainer = load(new File(path));
+					file = window.getLoadFile();
+					if (file == null)
+						break;
+				    trainer = load(file);
 					layout.clearWordInput();
 					layout.setImage(trainer.getSelectedWordEntry().getImageUrl());
 					stats = trainer.getStats();
@@ -95,7 +93,7 @@ public class Controller implements ActionListener {
 			}
 		} catch (StreamCorruptedException streamCorruptedException) {
 			if (streamCorruptedException.getMessage().startsWith("invalid stream header: "))
-				window.showException(new IOException(path + " (wrong file type)", streamCorruptedException));
+				window.showException(new IOException(file.getPath() + " (wrong file type)", streamCorruptedException));
 		} catch (Exception exception) {
 			window.showException(exception);
 		}

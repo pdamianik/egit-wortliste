@@ -1,6 +1,9 @@
 package pdamianik.view;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.plaf.FileChooserUI;
+import java.io.File;
 
 /**
  * A universal JFrame to house any JPanel
@@ -10,6 +13,8 @@ import javax.swing.*;
  */
 
 public class Window extends JFrame {
+	public final JFileChooser fileChooser;
+
 	/**
 	 * Initializes the window
 	 *
@@ -24,10 +29,21 @@ public class Window extends JFrame {
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
+
+		fileChooser = new JFileChooser(".");
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 	}
 
-	public String getSaveFilePath() {
-		return JOptionPane.showInputDialog(this, "Please enter the path to the save file:", "Save file path", JOptionPane.QUESTION_MESSAGE);
+	public File getLoadFile() {
+		if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(this))
+			return fileChooser.getSelectedFile();
+		return null;
+	}
+
+	public File getSaveFile() {
+		if (JFileChooser.APPROVE_OPTION == fileChooser.showSaveDialog(this))
+			return fileChooser.getSelectedFile();
+		return null;
 	}
 
 	public void showException(Exception e) {
