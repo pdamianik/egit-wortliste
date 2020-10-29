@@ -23,6 +23,10 @@ public class Controller implements ActionListener {
 	public Controller() {
 		// window creation
 		window = new Window("Word Trainer", layout = new Layout(this));
+		reset();
+	}
+
+	public void reset() {
 		trainer = new WordTrainer();
 		try {
 			trainer.add("dog", new URL("https://www.pinclipart.com/picdir/middle/20-206356_wenn-hund-clipart.png"));
@@ -56,12 +60,18 @@ public class Controller implements ActionListener {
 					layout.setImage(trainer.getSelectedWordEntry().getImageUrl());
 					stats = trainer.getStats();
 					layout.updateStatus(stats[0], stats[1]);
+					window.pack();
+					window.setLocationRelativeTo(null);
 					break;
 				case "Quiz-wordInput":
 					trainer.check(layout.getWord());
 					stats = trainer.getStats();
 					layout.updateStatus(stats[0], stats[1]);
 					layout.setImage(trainer.getRandomEntry().getImageUrl());
+					break;
+				case "GameControl-reset":
+					reset();
+					layout.updateStatus(0, 0);
 					break;
 				default:
 					System.out.println("Does nothing");
