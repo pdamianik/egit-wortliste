@@ -6,8 +6,21 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * Contains methods to save and load a {@link WordTrainer} via a custom serialization method
+ * @author pdamianik
+ * @version 2020-10-29
+ */
+
 public class TextFileIO {
 	public static final File DEFAULT_FILE = new File("wordTrainer.txt");
+
+	/**
+	 * Save a {@link WordTrainer} at a specific location
+	 * @param file the location to save to
+	 * @param wordTrainer the {@link WordTrainer} to save
+	 * @throws IOException will be thrown if any errors occur during the saving process
+	 */
 
 	public static void save(File file, WordTrainer wordTrainer) throws IOException {
 		try (PrintWriter outputStream = new PrintWriter(file)) {
@@ -21,9 +34,24 @@ public class TextFileIO {
 		}
 	}
 
+	/**
+	 * Save a {@link WordTrainer} to a default location
+	 * @param wordTrainer the {@link WordTrainer} to save
+	 * @throws IOException will be thrown if any errors occur during the saving process
+	 */
+
 	public static void save(WordTrainer wordTrainer) throws IOException {
 		save(DEFAULT_FILE, wordTrainer);
 	}
+
+
+	/**
+	 * Loads a {@link WordTrainer} from a specific location
+	 * @param file the location to load the {@link WordTrainer} from
+	 * @return the loaded {@link WordTrainer}
+	 * @throws FileNotFoundException will be thrown if any errors occur during the loading process
+	 * @throws MalformedURLException will be thrown if any errors occur during the loading process
+	 */
 
 	public static WordTrainer load(File file) throws FileNotFoundException, MalformedURLException {
 		int[] stats;
@@ -44,19 +72,15 @@ public class TextFileIO {
 		return new WordTrainer(wordList, selectedWordEntry, stats);
 	}
 
+
+	/**
+	 * Loads a {@link WordTrainer} from a default location
+	 * @return the loaded {@link WordTrainer}
+	 * @throws FileNotFoundException will be thrown if any errors occur during the loading process
+	 * @throws MalformedURLException will be thrown if any errors occur during the loading process
+	 */
+
 	public static WordTrainer load() throws FileNotFoundException, MalformedURLException {
 		return load(DEFAULT_FILE);
-	}
-
-	public static void main(String[] args) throws IOException {
-		WordList wordList = new WordList();
-		wordList.add("cat", new URL("https://google.at/"));
-		wordList.add("dog", new URL("https://google.com/"));
-		WordTrainer wordTrainer = new WordTrainer(wordList, null, new int[]{1, 2});
-		save(wordTrainer);
-		WordTrainer loaded = load();
-		System.out.println(loaded.getSelectedWordEntry());
-		System.out.println(Arrays.toString(loaded.getStats()));
-		System.out.println(loaded.getWordList());
 	}
 }

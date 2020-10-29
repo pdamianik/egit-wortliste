@@ -3,6 +3,12 @@ package pdamianik.model;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * Tests for the {@link pdamianik.model}
+ * @author pdamianik
+ * @version 2020-10-29
+ */
+
 public class ModelTest {
 	public static void main(String[] args) {
 		// model test
@@ -132,10 +138,21 @@ public class ModelTest {
 		workingAssert(!trainer.checkIgnoreCase("bla"));
 	}
 
+	/**
+	 * This method behaves like the java internal assert keyword but works without a jvm flag :D
+	 * @param condition if this condition is false this function will throw an exception
+	 */
+
 	public static void workingAssert(boolean condition) {
 		if (!condition)
 			throw new AssertionError();
 	}
+
+	/**
+	 * This method behaves similar to the java internal assert keyword but works without a jvm flag :D
+	 * @param condition if this condition is false this function will throw an exception
+	 * @param msg the exception message in case the condition is false
+	 */
 
 	public static void workingAssert(boolean condition, String msg) {
 		if (!condition)

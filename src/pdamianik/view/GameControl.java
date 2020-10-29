@@ -48,6 +48,12 @@ public class GameControl extends JPanel {
 		load.setActionCommand("GameControl-load");
 	}
 
+	/**
+	 * Updates the statistic values
+	 * @param correct the number of words that have been guessed correctly
+	 * @param total the total number of words that have been guessed
+	 */
+
 	public void updateStatus(int correct, int total) {
 		wordsCorrect.setText(Integer.toString(correct));
 		totalWordCount.setText(Integer.toString(total));

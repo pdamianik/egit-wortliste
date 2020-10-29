@@ -13,18 +13,30 @@ import java.io.StreamCorruptedException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static pdamianik.model.SerializedFileIO.load;
+/**
+ * The controller for the word trainer (a word guessing game)
+ * @author pdamianik
+ * @version 2020-10-29
+ */
 
 public class Controller implements ActionListener {
 	private final Window window;
 	private final Layout layout;
 	private WordTrainer trainer;
 
+	/**
+	 * Creates and initializes the view and the model for the word trainer
+	 */
+
 	public Controller() {
 		// window creation
 		window = new Window("Word Trainer", layout = new Layout(this));
 		reset();
 	}
+
+	/**
+	 * Resets the state of the program to its initial state
+	 */
 
 	public void reset() {
 		trainer = new WordTrainer();
@@ -37,6 +49,10 @@ public class Controller implements ActionListener {
 		showSelectedEntry();
 	}
 
+	/**
+	 * Updates all parts of the view to match the model
+	 */
+
 	public void showSelectedEntry() {
 		layout.clearWordInput();
 		layout.setImage(trainer.getSelectedWordEntry().getImageUrl());
@@ -45,6 +61,11 @@ public class Controller implements ActionListener {
 		window.pack();
 		window.setLocationRelativeTo(null);
 	}
+
+	/**
+	 * The action Handler that handles all actions from the view and makes the communication between the model and the view possible
+	 * @param e the action event sent by the UI
+	 */
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -61,7 +82,7 @@ public class Controller implements ActionListener {
 					file = window.getLoadFile();
 					if (file == null)
 						break;
-				    trainer = load(file);
+				    trainer = SerializedFileIO.load(file);
 				    showSelectedEntry();
 					break;
 				case "Quiz-wordInput":
