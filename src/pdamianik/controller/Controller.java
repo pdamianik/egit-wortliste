@@ -68,10 +68,22 @@ public class Controller implements ActionListener {
 					stats = trainer.getStats();
 					layout.updateStatus(stats[0], stats[1]);
 					layout.setImage(trainer.getRandomEntry().getImageUrl());
+					window.pack();
+					window.setLocationRelativeTo(null);
 					break;
 				case "GameControl-reset":
 					reset();
 					layout.updateStatus(0, 0);
+					break;
+				case "GameControl-addWord":
+					String[] newWord = window.getNewWord();
+					if (newWord == null) {
+						break;
+					}
+					trainer.add(newWord[0], new URL(newWord[1]));
+					layout.setImage(trainer.getRandomEntry().getImageUrl());
+					window.pack();
+					window.setLocationRelativeTo(null);
 					break;
 				default:
 					System.out.println("Does nothing");

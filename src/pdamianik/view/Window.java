@@ -33,4 +33,22 @@ public class Window extends JFrame {
 	public void showException(Exception e) {
 		JOptionPane.showMessageDialog(this, e.getMessage(), e.getClass().getSimpleName(), JOptionPane.ERROR_MESSAGE);
 	}
+
+	public String[] getNewWord() {
+		JTextField word = new JTextField();
+		JTextField url = new JTextField();
+		final JComponent[] dialogParts = new JComponent[] {
+				new JLabel("Word:"),
+				word,
+				new JLabel("URL:"),
+				url
+		};
+		if (JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(this, dialogParts, "Add new word", JOptionPane.OK_CANCEL_OPTION)) {
+			return new String[] {
+					word.getText(),
+					url.getText()
+			};
+		}
+		return null;
+	}
 }
