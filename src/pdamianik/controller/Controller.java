@@ -33,7 +33,15 @@ public class Controller implements ActionListener {
 		} catch (MalformedURLException malformedURLException) {
 			window.showException(malformedURLException);
 		}
-		layout.setImage(trainer.getRandomEntry().getImageUrl());
+		trainer.getRandomEntry();
+		showSelectedEntry();
+	}
+
+	public void showSelectedEntry() {
+		layout.clearWordInput();
+		layout.setImage(trainer.getSelectedWordEntry().getImageUrl());
+		int[] stats = trainer.getStats();
+		layout.updateStatus(stats[0], stats[1]);
 		window.pack();
 		window.setLocationRelativeTo(null);
 	}
@@ -41,7 +49,6 @@ public class Controller implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		File file = null;
-		int[] stats;
 		try {
 			switch (e.getActionCommand()) {
 				case "GameControl-save":
@@ -55,37 +62,24 @@ public class Controller implements ActionListener {
 					if (file == null)
 						break;
 				    trainer = load(file);
-					layout.clearWordInput();
-					layout.setImage(trainer.getSelectedWordEntry().getImageUrl());
-					stats = trainer.getStats();
-					layout.updateStatus(stats[0], stats[1]);
-					window.pack();
-					window.setLocationRelativeTo(null);
+				    showSelectedEntry();
 					break;
 				case "Quiz-wordInput":
 					trainer.check(layout.getWord());
-					layout.clearWordInput();
-					stats = trainer.getStats();
-					layout.updateStatus(stats[0], stats[1]);
-					layout.setImage(trainer.getRandomEntry().getImageUrl());
-					window.pack();
-					window.setLocationRelativeTo(null);
+					trainer.getRandomEntry();
+					showSelectedEntry();
 					break;
 				case "GameControl-reset":
 					reset();
-					layout.updateStatus(0, 0);
-					layout.clearWordInput();
 					break;
 				case "GameControl-addWord":
 					String[] newWord = window.getNewWord();
 					if (newWord == null) {
 						break;
 					}
-					layout.clearWordInput();
 					trainer.add(newWord[0], new URL(newWord[1]));
-					layout.setImage(trainer.getRandomEntry().getImageUrl());
-					window.pack();
-					window.setLocationRelativeTo(null);
+					trainer.getRandomEntry();
+					showSelectedEntry();
 					break;
 				default:
 					System.out.println("Does nothing");
