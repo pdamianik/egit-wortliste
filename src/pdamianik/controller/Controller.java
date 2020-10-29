@@ -37,6 +37,7 @@ public class Controller implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String path = "";
+		int[] stats;
 		try {
 			switch (e.getActionCommand()) {
 				case "GameControl-save":
@@ -53,8 +54,14 @@ public class Controller implements ActionListener {
 					else
 						trainer = load(new File(path));
 					layout.setImage(trainer.getSelectedWordEntry().getImageUrl());
-					int[] stats = trainer.getStats();
+					stats = trainer.getStats();
 					layout.updateStatus(stats[0], stats[1]);
+					break;
+				case "Quiz-wordInput":
+					trainer.check(layout.getWord());
+					stats = trainer.getStats();
+					layout.updateStatus(stats[0], stats[1]);
+					layout.setImage(trainer.getRandomEntry().getImageUrl());
 					break;
 				default:
 					System.out.println("Does nothing");

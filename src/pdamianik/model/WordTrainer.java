@@ -90,9 +90,9 @@ public class WordTrainer implements Serializable {
 	 */
 
 	public boolean check(String word) {
-		stats[0]++;
+		stats[1]++;
 		if (selectedWordEntry.getWord().equals(word)) {
-			stats[1]++;
+			stats[0]++;
 			return true;
 		}
 		return false;
@@ -106,9 +106,9 @@ public class WordTrainer implements Serializable {
 	 */
 
 	public boolean checkIgnoreCase(String word) {
-		stats[0]++;
+		stats[1]++;
 		if (selectedWordEntry.getWord().equalsIgnoreCase(word)) {
-			stats[1]++;
+			stats[0]++;
 			return true;
 		}
 		return false;

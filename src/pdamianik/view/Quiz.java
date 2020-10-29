@@ -41,4 +41,12 @@ public class Quiz extends JPanel {
 	public String getWord() {
 		return wordInput.getText();
 	}
+
+	/**
+	 * Clears the text input
+	 */
+
+	public void clearInput() {
+		wordInput.setText("");
+	}
 }
