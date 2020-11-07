@@ -8,6 +8,7 @@ import java.net.URL;
 
 /**
  * Initializes and positions all parts of the UI in a border layout
+ *
  * @author pdamianik
  * @version 2020-09-26
  */
@@ -19,6 +20,7 @@ public class Layout extends JPanel {
 
 	/**
 	 * Initializes the overall layout of the word trainer
+	 *
 	 * @param listener the listener to call when any action event happens
 	 */
 
@@ -39,6 +41,7 @@ public class Layout extends JPanel {
 
 	/**
 	 * Returns the word that the user entered
+	 *
 	 * @return the word that the user entered into the text field
 	 */
 
@@ -56,8 +59,9 @@ public class Layout extends JPanel {
 
 	/**
 	 * Updates the counters to show the updated statistics
+	 *
 	 * @param correct the count of correct words
-	 * @param total the total count of words
+	 * @param total   the total count of words
 	 */
 
 	public void updateStatus(int correct, int total) {
@@ -66,10 +70,12 @@ public class Layout extends JPanel {
 
 	/**
 	 * Sets the URL for a new image to show
+	 *
 	 * @param imageUrl the URL of a new image to show
+	 * @throws ImageLoadingError when the image couldn't be loaded
 	 */
 
-	public void setImage(URL imageUrl) {
+	public void setImage(URL imageUrl) throws ImageLoadingError {
 		imageDisplay.setImage(imageUrl);
 	}
 }

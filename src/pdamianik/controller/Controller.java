@@ -2,6 +2,7 @@ package pdamianik.controller;
 
 import pdamianik.model.SerializedFileIO;
 import pdamianik.model.WordTrainer;
+import pdamianik.view.ImageLoadingError;
 import pdamianik.view.Layout;
 import pdamianik.view.Window;
 
@@ -15,6 +16,7 @@ import java.net.URL;
 
 /**
  * The controller for the word trainer (a word guessing game)
+ *
  * @author pdamianik
  * @version 2020-10-29
  */
@@ -26,9 +28,11 @@ public class Controller implements ActionListener {
 
 	/**
 	 * Creates and initializes the view and the model for the word trainer
+	 *
+	 * @throws ImageLoadingError when the image couldn't be loaded
 	 */
 
-	public Controller() {
+	public Controller() throws ImageLoadingError {
 		// window creation
 		window = new Window("Word Trainer", layout = new Layout(this));
 		reset();
@@ -36,9 +40,11 @@ public class Controller implements ActionListener {
 
 	/**
 	 * Resets the state of the program to its initial state
+	 *
+	 * @throws ImageLoadingError when the image couldn't be loaded
 	 */
 
-	public void reset() {
+	public void reset() throws ImageLoadingError {
 		trainer = new WordTrainer();
 		try {
 			trainer.add("dog", new URL("https://www.pinclipart.com/picdir/middle/20-206356_wenn-hund-clipart.png"));
@@ -51,19 +57,22 @@ public class Controller implements ActionListener {
 
 	/**
 	 * Updates all parts of the view to match the model
+	 *
+	 * @throws ImageLoadingError when the image couldn't be loaded
 	 */
 
-	public void showSelectedEntry() {
+	public void showSelectedEntry() throws ImageLoadingError {
 		layout.clearWordInput();
-		layout.setImage(trainer.getSelectedWordEntry().getImageUrl());
 		int[] stats = trainer.getStats();
 		layout.updateStatus(stats[0], stats[1]);
+		layout.setImage(trainer.getSelectedWordEntry().getImageUrl());
 		window.pack();
 		window.setLocationRelativeTo(null);
 	}
 
 	/**
 	 * The action Handler that handles all actions from the view and makes the communication between the model and the view possible
+	 *
 	 * @param e the action event sent by the UI
 	 */
 
@@ -82,8 +91,8 @@ public class Controller implements ActionListener {
 					file = window.getLoadFile();
 					if (file == null)
 						break;
-				    trainer = SerializedFileIO.load(file);
-				    showSelectedEntry();
+					trainer = SerializedFileIO.load(file);
+					showSelectedEntry();
 					break;
 				case "Quiz-wordInput":
 					trainer.check(layout.getWord());
@@ -100,7 +109,6 @@ public class Controller implements ActionListener {
 					}
 					trainer.add(newWord[0], new URL(newWord[1]));
 					trainer.getRandomEntry();
-					showSelectedEntry();
 					break;
 				default:
 					System.out.println("Does nothing");
