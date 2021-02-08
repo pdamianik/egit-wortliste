@@ -2,6 +2,8 @@ package pdamianik.model;
 
 import java.io.Serializable;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Stores a list of {@link WordEntry}
@@ -11,8 +13,7 @@ import java.net.URL;
  */
 
 public class WordList implements Serializable {
-	private WordEntry[] wordEntries = new WordEntry[1];
-	private int length = 0;
+	private List<WordEntry> wordEntries = new ArrayList<>();
 
 	/**
 	 * Getter method for the length of the list
@@ -21,7 +22,7 @@ public class WordList implements Serializable {
 	 */
 
 	public int getLength() {
-		return length;
+		return wordEntries.size();
 	}
 
 	/**
@@ -36,13 +37,7 @@ public class WordList implements Serializable {
 			throw new IllegalArgumentException("The word shall not be null");
 		if (imageUrl == null)
 			throw new IllegalArgumentException("The image URL shall not be null");
-		wordEntries[length++] = new WordEntry(word, imageUrl);
-		if (length == wordEntries.length) {
-			WordEntry[] tmpArray = new WordEntry[wordEntries.length * 2];
-			for (int i = 0; i < wordEntries.length; i++)
-				tmpArray[i] = wordEntries[i];
-			wordEntries = tmpArray;
-		}
+		wordEntries.add(new WordEntry(word, imageUrl));
 	}
 
 	/**
@@ -53,9 +48,7 @@ public class WordList implements Serializable {
 	 */
 
 	public WordEntry get(int index) {
-		if (index < 0 || index >= length)
-			throw new IndexOutOfBoundsException("Index " + index + " out of range for length " + length);
-		return wordEntries[index];
+		return wordEntries.get(index);
 	}
 
 	/**
@@ -68,11 +61,9 @@ public class WordList implements Serializable {
 	public boolean delete(String word) {
 		if (word == null)
 			throw new IllegalArgumentException("The word shall not be null");
-		for (int i = 0; i < length; i++) {
-			if (wordEntries[i].getWord().equals(word)) {
-				for (; i < --length; i++)
-					wordEntries[i] = wordEntries[i + 1];
-				wordEntries[length] = null;
+		for (int i = 0, length = wordEntries.size(); i < length; i++) {
+			if (wordEntries.get(i).getWord().equals(word)) {
+				wordEntries.remove(i);
 				return true;
 			}
 		}
@@ -87,13 +78,14 @@ public class WordList implements Serializable {
 
 	@Override
 	public String toString() {
-		if (wordEntries.length == 0)
+		if (wordEntries.size() == 0)
 			return "";
-		String firstElement = wordEntries[0] == null ? "" : wordEntries[0].toString();
+		WordEntry currentEntry;
+		String firstElement = wordEntries.get(0) == null ? "" : wordEntries.get(0).toString();
 		StringBuilder builder = new StringBuilder(firstElement);
-		for (int i = 1; i < wordEntries.length; i++)
-			if (wordEntries[i] != null)
-				builder.append('\n').append(wordEntries[i]);
+		for (int i = 1; i < wordEntries.size(); i++)
+			if ((currentEntry = wordEntries.get(i)) != null)
+				builder.append('\n').append(currentEntry);
 		return builder.toString();
 	}
 
@@ -104,6 +96,6 @@ public class WordList implements Serializable {
 	 */
 
 	public WordEntry[] getWordEntries() {
-		return wordEntries;
+		return wordEntries.toArray(new WordEntry[0]);
 	}
 }
